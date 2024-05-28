@@ -51,7 +51,16 @@ $ conda env create -f fsp-gpu.yml
 $ conda activate fsp-gpu
 ```
 
+### Running locally unit tests
+1 - After activate conda project environment
+```    
+$ conda activate fsp-gpu
+```
 
+2 - In the root directory execute
+```    
+$ pytest -v
+```
 
 ### Running on docker locally from scratch
 1 - Clone the original repository in github
