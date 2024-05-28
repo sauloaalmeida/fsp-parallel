@@ -40,7 +40,7 @@ $ git clone https://github.com/sauloaalmeida/fsp-python-gpu --branch=v1.0
 ```
 2 - Go to the cloned directory
 ```    
-$ cd fs-python-gpu
+$ cd fps-python-gpu
 ```
 
 3 - Create conda project environment
