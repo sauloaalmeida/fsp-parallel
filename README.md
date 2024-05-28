@@ -42,11 +42,15 @@ $ git clone https://github.com/sauloaalmeida/fsp-python-gpu --branch=v1.0
 ```    
 $ cd fps-python-gpu
 ```
-
 3 - Create conda project environment
 ```    
-$ mamba env create -f fps-gpu.yml
+$ conda env create -f fps-gpu.yml
 ```
+4 - Activate project environment
+```    
+$ conda activate fps-gpu
+```
+
 
 
 ### Running on docker locally from scratch
