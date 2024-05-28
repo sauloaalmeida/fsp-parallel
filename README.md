@@ -52,12 +52,12 @@ $ conda activate fsp-gpu
 ```
 
 ### Running locally unit tests
-1 - After activate conda project environment
+1 - After activate conda project environment:
 ```    
 $ conda activate fsp-gpu
 ```
 
-2 - In the root directory execute
+2 - For a detailed report, in root's directory execute:
 ```    
 $ pytest -v
 ```
