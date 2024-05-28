@@ -44,11 +44,11 @@ $ cd fps-python-gpu
 ```
 3 - Create conda project environment
 ```    
-$ conda env create -f fps-gpu.yml
+$ conda env create -f fsp-gpu.yml
 ```
 4 - Activate project environment
 ```    
-$ conda activate fps-gpu
+$ conda activate fsp-gpu
 ```
 
 
