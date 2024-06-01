@@ -4,3 +4,4 @@ channels:
 dependencies:
   - python==3.12.0
   - pytest==8.2.1
+  - coverage==7.5.3
