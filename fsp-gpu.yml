@@ -2,6 +2,13 @@ name: fsp-gpu
 channels:
   - conda-forge
 dependencies:
-  - python==3.12.0
+  #development support tools
+  - python==3.11
   - pytest==8.2.1
   - coverage==7.5.3
+  - pyinstrument==4.6.2
+  #project libraries 
+  - numpy==1.26.4
+  - pandas==2.2.2
+  - scikit-learn==1.5.0
+  - pytorch==2.3.0

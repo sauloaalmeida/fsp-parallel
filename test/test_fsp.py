@@ -1,5 +1,6 @@
-from src.fsp import fsp
+from src.fsp import Fsp
 import pytest
 
 def test_fsp():
-    assert fsp() == "hello fsp"
+    fsp = Fsp()
+    assert fsp.helloFsp() == "hello fsp"

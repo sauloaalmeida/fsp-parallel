@@ -1,2 +1,4 @@
-def fsp():
-    return "hello fsp"
+class Fsp:
+    
+    def helloFsp(self):
+        return "hello fsp"
