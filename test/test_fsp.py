@@ -1,5 +1,4 @@
 from src.fsp import Fsp
-import pytest
 
 def test_fsp():
     fsp = Fsp()
