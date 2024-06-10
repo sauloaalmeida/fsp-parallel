@@ -32,7 +32,7 @@ class TestFspOptions:
         assert fspOptions.kmeans_random_state == 0
 
     def test_str(self):
-        expectedFspOptionStr = "{initial_k=1, "\
+        expectedFspOptionStr = "FspOptions(initial_k=1, "\
                                "p_parameter=0.05, "\
                                "h_threshold=0, "\
                                "dm_case=2, "\
@@ -41,7 +41,7 @@ class TestFspOptions:
                                "return_full_dm=False, "\
                                "return_full_history=False, "\
                                "iteration_threshold=2000000.0, "\
-                               "kmeans_random_state=None}"
+                               "kmeans_random_state=None)"
         fspOptions = FspOptions()
         assert expectedFspOptionStr == fspOptions.__str__()
 
