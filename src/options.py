@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class FspOptions:
+class Options:
 
     initial_k: int = 1
     p_parameter: float = 0.05
