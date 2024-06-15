@@ -1,6 +1,6 @@
 import pytest
 from dataclasses import FrozenInstanceError
-from src.options import Options
+from fsp.options import Options
 
 class TestFspOptions:
 

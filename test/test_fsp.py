@@ -1,6 +1,7 @@
 from sklearn.datasets import load_iris
+from fsp.fsp import Fsp
 import pandas as pd
-from src.fsp import Fsp
+
 
 def preProccessIrisDataset():
     # Load the iris dataset

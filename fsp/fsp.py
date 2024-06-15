@@ -1,6 +1,6 @@
 from sklearn.cluster import KMeans
-from src.divergence_measure.scipy import DivergenceMeasureScipy
-from src.options import Options
+from fsp.divergence_measure.scipy import DivergenceMeasureScipy
+from fsp.options import Options
 import numpy as np
 import time
 
