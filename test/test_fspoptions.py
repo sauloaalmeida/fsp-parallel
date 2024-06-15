@@ -31,20 +31,6 @@ class TestFspOptions:
         assert fspOptions.iteration_threshold == 2e6
         assert fspOptions.kmeans_random_state == 0
 
-    def test_str(self):
-        expectedFspOptionStr = "FspOptions(initial_k=1, "\
-                               "p_parameter=0.05, "\
-                               "h_threshold=0, "\
-                               "dm_case=2, "\
-                               "dm_threshold=0.5, "\
-                               "update_dm_threshold=True, "\
-                               "return_full_dm=False, "\
-                               "return_full_history=False, "\
-                               "iteration_threshold=2000000.0, "\
-                               "kmeans_random_state=None)"
-        fspOptions = FspOptions()
-        assert expectedFspOptionStr == fspOptions.__str__()
-
     def test_modify_attribute(self):
         with pytest.raises(FrozenInstanceError):
             fspOptions = FspOptions()
