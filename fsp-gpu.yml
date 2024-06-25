@@ -1,14 +1,19 @@
 name: fsp-gpu
 channels:
+  - rapidsai
   - conda-forge
+  - nvidia
 dependencies:
   #development support tools
-  - python==3.11
+  - python=3.9
   - pytest==8.2.1
   - coverage==7.5.3
   - pyinstrument==4.6.2
-  #project libraries 
-  - numpy==1.26.4
-  - pandas==2.2.2
+  - cuda-version=12.2
+  #project libraries
+  - numpy=1.24
+  - pandas==1.5.3
+  - scipy==1.13.0
   - scikit-learn==1.5.0
   - pytorch==2.3.0
+  - rapids=23.12
