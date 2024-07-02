@@ -17,3 +17,4 @@ dependencies:
   - scikit-learn==1.5.0
   - pytorch==2.3.0
   - rapids=23.12
+  - tensorflow==2.16.1
