@@ -47,19 +47,3 @@ def test_fsp():
     erro = np.mean(y_test != y_pred)
     print("Erro de classificação:", erro)
 
-def test_kmeans():
-
-    #instancia o um dataset
-    X, y = preProccessIrisDataset()
-
-    print(X)
-    #print(y)
-    # rs = RandomState(42)
-
-    # kmeans = KMeans(n_clusters=4,max_iter= 1000, random_state=rs,  n_init=1).fit(X)
-    # idx = kmeans.labels_
-    # C = kmeans.cluster_centers_
-
-    # print(idx)
-    # print(C)
-

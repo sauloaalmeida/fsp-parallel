@@ -30,5 +30,3 @@ def main():
 
     test2.funcao = reverso
     test2.imprime()
-
-main()
