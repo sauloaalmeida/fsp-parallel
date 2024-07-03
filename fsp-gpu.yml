@@ -11,10 +11,10 @@ dependencies:
   - pyinstrument==4.6.2
   - cuda-version=12.2
   #project libraries
-  - numpy=1.24
+  - numpy==1.24
   - pandas==1.5.3
   - scipy==1.13.0
-  - scikit-learn==1.5.0
+  - scikit-learn==1.2.2
   - pytorch==2.3.0
   - rapids=23.12
   - tensorflow==2.16.1
