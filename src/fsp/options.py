@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
-class FspOptions:
+class Options:
     Standardize: bool = False
     initial_k: int = 1
     p_parameter: float = 0.05
@@ -18,38 +18,39 @@ class FspOptions:
     @staticmethod
     def preset(label):
         options = {
-            "opt1s0": FspOptions(p_parameter=0.01, dm_case=1, s_parameter=0.1, Standardize=0),
-            "opt2s0": FspOptions(p_parameter=0.01, dm_case=1, s_parameter=0.3, Standardize=0),
-            "opt3s0": FspOptions(p_parameter=0.01, dm_case=1, s_parameter=0.5, Standardize=0),
+            "opt1s0": Options(p_parameter=0.01, dm_case=1, s_parameter=0.1, Standardize=0),
+            "opt2s0": Options(p_parameter=0.01, dm_case=1, s_parameter=0.3, Standardize=0),
+            "opt3s0": Options(p_parameter=0.01, dm_case=1, s_parameter=0.5, Standardize=0),
 
-            "opt4s0": FspOptions(p_parameter=0.05, dm_case=1, s_parameter=0.1, Standardize=0),
-            "opt5s0": FspOptions(p_parameter=0.05, dm_case=1, s_parameter=0.3, Standardize=0),
-            "opt6s0": FspOptions(p_parameter=0.05, dm_case=1, s_parameter=0.5, Standardize=0),
+            "opt4s0": Options(p_parameter=0.05, dm_case=1, s_parameter=0.1, Standardize=0),
+            "opt5s0": Options(p_parameter=0.05, dm_case=1, s_parameter=0.3, Standardize=0),
+            "opt6s0": Options(p_parameter=0.05, dm_case=1, s_parameter=0.5, Standardize=0),
 
-            "opt7s0": FspOptions(p_parameter=0.01, dm_case=2, s_parameter=0.1, Standardize=0),
-            "opt8s0": FspOptions(p_parameter=0.01, dm_case=2, s_parameter=0.3, Standardize=0),
-            "opt9s0": FspOptions(p_parameter=0.01, dm_case=2, s_parameter=0.5, Standardize=0),
+            "opt7s0": Options(p_parameter=0.01, dm_case=2, s_parameter=0.1, Standardize=0),
+            "opt8s0": Options(p_parameter=0.01, dm_case=2, s_parameter=0.3, Standardize=0),
+            "opt9s0": Options(p_parameter=0.01, dm_case=2, s_parameter=0.5, Standardize=0),
 
-            "opt10s0": FspOptions(p_parameter=0.05, dm_case=2, s_parameter=0.1, Standardize=0),
-            "opt11s0": FspOptions(p_parameter=0.05, dm_case=2, s_parameter=0.3, Standardize=0),
-            "opt12s0": FspOptions(p_parameter=0.05, dm_case=2, s_parameter=0.5, Standardize=0),
+            "opt10s0": Options(p_parameter=0.05, dm_case=2, s_parameter=0.1, Standardize=0),
+            "opt11s0": Options(p_parameter=0.05, dm_case=2, s_parameter=0.3, Standardize=0),
+            "opt12s0": Options(p_parameter=0.05, dm_case=2, s_parameter=0.5, Standardize=0),
 
-            "opt1s1": FspOptions(p_parameter=0.01, dm_case=1, s_parameter=0.1, Standardize=1),
-            "opt2s1": FspOptions(p_parameter=0.01, dm_case=1, s_parameter=0.3, Standardize=1),
-            "opt3s1": FspOptions(p_parameter=0.01, dm_case=1, s_parameter=0.5, Standardize=1),
+            "opt1s1": Options(p_parameter=0.01, dm_case=1, s_parameter=0.1, Standardize=1),
+            "opt2s1": Options(p_parameter=0.01, dm_case=1, s_parameter=0.3, Standardize=1),
+            "opt3s1": Options(p_parameter=0.01, dm_case=1, s_parameter=0.5, Standardize=1),
 
-            "opt4s1": FspOptions(p_parameter=0.05, dm_case=1, s_parameter=0.1, Standardize=1),
-            "opt5s1": FspOptions(p_parameter=0.05, dm_case=1, s_parameter=0.3, Standardize=1),
-            "opt6s1": FspOptions(p_parameter=0.05, dm_case=1, s_parameter=0.5, Standardize=0),
+            "opt4s1": Options(p_parameter=0.05, dm_case=1, s_parameter=0.1, Standardize=1),
+            "opt5s1": Options(p_parameter=0.05, dm_case=1, s_parameter=0.3, Standardize=1),
+            "opt6s1": Options(p_parameter=0.05, dm_case=1, s_parameter=0.5, Standardize=0),
 
-            "opt7s1": FspOptions(p_parameter=0.01, dm_case=2, s_parameter=0.1, Standardize=1),
-            "opt8s1": FspOptions(p_parameter=0.01, dm_case=2, s_parameter=0.3, Standardize=1),
-            "opt9s1": FspOptions(p_parameter=0.01, dm_case=2, s_parameter=0.5, Standardize=1),
+            "opt7s1": Options(p_parameter=0.01, dm_case=2, s_parameter=0.1, Standardize=1),
+            "opt8s1": Options(p_parameter=0.01, dm_case=2, s_parameter=0.3, Standardize=1),
+            "opt9s1": Options(p_parameter=0.01, dm_case=2, s_parameter=0.5, Standardize=1),
 
-            "opt10s1": FspOptions(p_parameter=0.05, dm_case=2, s_parameter=0.1, Standardize=1),
-            "opt11s1": FspOptions(p_parameter=0.05, dm_case=2, s_parameter=0.3, Standardize=1),
-            "opt12s1": FspOptions(p_parameter=0.05, dm_case=2, s_parameter=0.5, Standardize=1),
+            "opt10s1": Options(p_parameter=0.05, dm_case=2, s_parameter=0.1, Standardize=1),
+            "opt11s1": Options(p_parameter=0.05, dm_case=2, s_parameter=0.3, Standardize=1),
+            "opt12s1": Options(p_parameter=0.05, dm_case=2, s_parameter=0.5, Standardize=1),
         }
         if label not in options:
-            raise ValueError('Option label not recognized.')
+            raise ValueError('Option informed not recognized.')
+
         return options[label]

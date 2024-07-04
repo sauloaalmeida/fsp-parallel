@@ -4,7 +4,7 @@ import numpy as np
 from scipy.spatial import distance
 from sklearn.model_selection import train_test_split
 from sklearn import datasets
-from fsp.options import FspOptions
+from fsp.options import Options
 from fsp.fsp import fsp
 from fsp.fsp import fsp_predict
 
@@ -22,7 +22,7 @@ class TestFsp:
         X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=20, random_state=42)
 
-        option = FspOptions(Standardize=0, return_full_history=1, return_full_dm=0, s_parameter=0.3, p_parameter=0.01, kmeans_random_state=0)
+        option = Options(Standardize=0, return_full_history=1, return_full_dm=0, s_parameter=0.3, p_parameter=0.01, kmeans_random_state=0)
 
         fsp_output = fsp(X_train, y_train,opt=option)
 
@@ -40,9 +40,6 @@ class TestFsp:
         assert y_test.tolist() == [1,0,2,1,1,0,1,2,1,1,2,0,0,0,0,1,2,1,1,2]
         assert y_pred.shape == (20,)
         assert y_pred.tolist() == [1,0,2,1,1,0,1,2,2,1,2,0,0,0,0,1,2,1,1,2]
-
         assert y_pred_Proportion.shape == (20,)
         assert np.mean(y_test == y_pred) == 0.95
-
-        #assert y_pred_Proportion.tolist() == [1.,1.,1.,1.,1.,1.,1.,1.,0.71428571,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,]
-        print("\ny_pred_Proportion\n",y_pred_Proportion)
+        assert y_pred_Proportion.tolist() == [1., 1., 1., 1., 1., 1., 1., 1., 0.7142857142857143 ,1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]

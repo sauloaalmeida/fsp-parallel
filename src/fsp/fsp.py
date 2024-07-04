@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 from scipy.spatial import distance
-from fsp.options import FspOptions
+from fsp.options import Options
 from fsp.divergence_measure.scipy import Divergence_Measure
 
 #################################################
@@ -293,7 +293,7 @@ def store_iteration_info(H, i, C, count_matrix, ObservationsPerCluster,
 #################################################
 #### FSP ALGORITHM BLOCK BEGIN
 #################################################
-def fsp(X, y , opt = FspOptions()):
+def fsp(X, y , opt = Options()):
     # Start measuring the total execution time
     startTime = time.time()
 
