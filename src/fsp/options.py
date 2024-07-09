@@ -48,7 +48,7 @@ class Options:
 
             "opt10s1": Options(p_parameter=0.05, dm_case=2, s_parameter=0.1, Standardize=1),
             "opt11s1": Options(p_parameter=0.05, dm_case=2, s_parameter=0.3, Standardize=1),
-            "opt12s1": Options(p_parameter=0.05, dm_case=2, s_parameter=0.5, Standardize=1),
+            "opt12s1": Options(p_parameter=0.05, dm_case=2, s_parameter=0.5, Standardize=1)
         }
         if label not in options:
             raise ValueError('Option informed not recognized.')

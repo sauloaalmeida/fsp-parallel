@@ -9,8 +9,17 @@ from fsp.fsp import fsp_predict
 from sklearn.model_selection import StratifiedKFold, LeaveOneOut
 from joblib import Parallel, delayed
 
+def verify_accuracy_fsp_from_optlabels(dataset_filenames=None, opt_labels=None , k_fold=None, number_of_runs=10, input_dataset_path=Path('.'), output_report_path=Path('.')):
 
-def verify_accuracy_fsp(dataset_filenames=None, opt_labels=None, k_fold=None, number_of_runs=10, input_dataset_path=Path('.'), output_report_path=Path('.')):
+    opts = {}
+
+    if opt_labels != None:
+        for opt_label in opt_labels:
+            opts[opt_label] = Options.preset(opt_label)
+
+    return verify_accuracy_fsp(dataset_filenames, opts, k_fold, number_of_runs, input_dataset_path, output_report_path)
+
+def verify_accuracy_fsp(dataset_filenames=None, opts=None, k_fold=None, number_of_runs=10, input_dataset_path=Path('.'), output_report_path=Path('.')):
     """
     Evaluate the accuracy of FSP using cross-validation on different datasets and options.
 
@@ -38,8 +47,10 @@ def verify_accuracy_fsp(dataset_filenames=None, opt_labels=None, k_fold=None, nu
         ]
 
     # Default option labels if not provided
-    if not opt_labels:
-        opt_labels = [f"opt{i}s{j}" for i in range(1, 13) for j in range(2)]
+    if not opts:
+        for i in range(1, 13):
+            for j in range(2):
+                opts[f"opt{i}s{j}"] = Options.preset(f"opt{i}s{j}")
 
     # Initialize list to store results
     fsp_results = []
@@ -52,8 +63,7 @@ def verify_accuracy_fsp(dataset_filenames=None, opt_labels=None, k_fold=None, nu
         data[:, -1] -= 1 # Adjust class labels
 
         # Iterate through option labels
-        for opt_label in opt_labels:
-            opt = Options.preset(opt_label)
+        for opt_label, opt in opts.items():
             accuracies_predict1 = []
             accuracies_predict2 = []
             elapsed_times = []
