@@ -1,16 +1,14 @@
 import time
 import numpy as np
 import pandas as pd
-from sklearn.cluster import KMeans
-from scipy.spatial import distance
 from fsp.options import Options
-from fsp.divergence_measure.scipy import Divergence_Measure
+from fsp.divergence_measure.dm_algorithm import Divergence_Measure
 
 #################################################
 #### PREDICT BLOCK BEGIN
 #################################################
 
-def fsp_predict(fsp_output, Xtest, predict_method=1):
+def fsp_predict(fsp_output, Xtest, predict_method=1, opt=Options):
     """Predict labels using the Feature Space Partition (FSP) method's output.
 
     Parameters:
@@ -27,24 +25,24 @@ def fsp_predict(fsp_output, Xtest, predict_method=1):
         Xtest = (Xtest - fsp_output['Mu']) / fsp_output['Sigma']
 
     if predict_method == 1:
-        return predict_method_1(fsp_output, Xtest)
+        return predict_method_1(fsp_output, Xtest, opt)
     elif predict_method == 2:
-        return predict_method_2(fsp_output, Xtest)
+        return predict_method_2(fsp_output, Xtest, opt)
     else:
         raise ValueError("Invalid predict_method. Must be 1 or 2.")
 
-def predict_method_1(fsp_output, Xtest):
+def predict_method_1(fsp_output, Xtest, opt):
     """Prediction method 1 using nearest centroids."""
     C = fsp_output['C']  # k x d matrix of cluster centroids
 
     # Classify the training data
-    Itrain = classify_by_the_nearest_centroid(fsp_output['Xtrain'], C)
+    Itrain = classify_by_the_nearest_centroid(fsp_output['Xtrain'], C, opt)
 
     # Calculate the dominant class label and its proportion for each cluster
     DominantClassLabel, DominantClassLabel_Proportion = calculate_dominant_class(Itrain, fsp_output['ytrain'], C.shape[0], fsp_output['ClassNames'].size)
 
     # Classify the test data
-    Itest = classify_by_the_nearest_centroid(Xtest, C)
+    Itest = classify_by_the_nearest_centroid(Xtest, C, opt)
 
     # Assign the predicted class label and its proportion
     ypredict = DominantClassLabel[Itest]
@@ -52,21 +50,21 @@ def predict_method_1(fsp_output, Xtest):
 
     return ypredict, ypredict_Proportion
 
-def predict_method_2(fsp_output, Xtest):
+def predict_method_2(fsp_output, Xtest, opt):
     """Prediction method 2 using hierarchical clustering."""
     # Get the number of test observations
     Ntest = Xtest.shape[0]
 
     if Ntest == 1:
-        ypredict, ypredict_Proportion = run_single_prediction(Xtest, fsp_output['H'])
+        ypredict, ypredict_Proportion = run_single_prediction(Xtest, fsp_output['H'], opt )
     else:
-        ypredict, ypredict_Proportion = run_multi_prediction(Xtest, fsp_output['H'])
+        ypredict, ypredict_Proportion = run_multi_prediction(Xtest, fsp_output['H'], opt)
 
     return ypredict, ypredict_Proportion
 
-def classify_by_the_nearest_centroid(X, C):
+def classify_by_the_nearest_centroid(X, C, opt):
     """Classify data points by the nearest centroid."""
-    dist_X_C = distance.cdist(X, C, 'euclidean')
+    dist_X_C = opt.getDistanceMethod().cdist(X, C)
     return np.argmin(dist_X_C, axis=1)
 
 def calculate_dominant_class(Itrain, ytrain, k, nCL):
@@ -79,7 +77,7 @@ def calculate_dominant_class(Itrain, ytrain, k, nCL):
 
     return DominantClassLabel, DominantClassLabel_Proportion
 
-def run_single_prediction(Xtest_row, H):
+def run_single_prediction(Xtest_row, H, opt):
     """Predict the class and proportion for a single test observation."""
 
     # Iterate through H
@@ -91,7 +89,7 @@ def run_single_prediction(Xtest_row, H):
         # Classify the test data
         # dists = np.linalg.norm(Xtest_row - H['C'][j], axis=1)
         # Itest = np.argmin(dists)
-        Itest = classify_by_the_nearest_centroid(Xtest_row, H['C'][j])
+        Itest = classify_by_the_nearest_centroid(Xtest_row, H['C'][j], opt)
 
         # Check if Xtest_row belongs to a cluster marked for removal
         vecbool = np.isin(H['rmCidx'][j],Itest)
@@ -105,7 +103,7 @@ def run_single_prediction(Xtest_row, H):
 
     raise ValueError('Did not find an iteration in H where the observation Xtest_row belongs to a cluster marked for removal.')
 
-def run_multi_prediction(Xtest, H):
+def run_multi_prediction(Xtest, H, opt):
     raise NotImplementedError('predict_method_2 with Xtest.shape[0]>1 is not implemented yet.')
 
 #################################################
@@ -170,7 +168,7 @@ def check_homogeneity(y, idx, k:int, nCL:int, p_parameter:float, h_threshold:int
 #################################################
 #### CHECK SEPARABILTY BLOCK BEGIN
 #################################################
-def check_separability(X, y, idx, k:int, nCL:int, count_matrix, dm_case:int, s_parameter:float, dm_threshold:int, return_full_dm:bool) -> tuple:
+def check_separability(X, y, idx, k:int, nCL:int, count_matrix, dm_case:int, s_parameter:float, dm_threshold:int, return_full_dm:bool, opt:Options) -> tuple:
     """
     Check the separability of clusters based on divergence measures.
 
@@ -215,7 +213,7 @@ def check_separability(X, y, idx, k:int, nCL:int, count_matrix, dm_case:int, s_p
             for b in range(a+1,nCL):
                 Nb = count_matrix[c,b]         # Number of observations in X_c with class b
                 if Nb < dm_threshold: continue # Skip if class b does not meet minimum count of dm_threshold units
-                dm = Divergence_Measure(X_c_a, X_c[y_c == b,:], dm_case) # Calculate divergence measure
+                dm = Divergence_Measure(X_c_a, X_c[y_c == b,:], opt) # Calculate divergence measure
                 mat_dm[c,a*(nCL-1)-a*(a-1)//2+b-a-1] = dm
                 if dm >= s_parameter:
                     criterion_met = True # Set criterion met to True if divergence measure meets or exceeds s_parameter
@@ -332,15 +330,16 @@ def fsp(X, y , opt = Options()):
     result['ytrain'] = y # Training labels
     result['ClassNames'] = ClassNames # Names of the classes
 
+    # recovery the kmeans method that must be used
+    kmeans_method = opt.getKMeansMethod()
+
     # While X not empty do
     while X.shape[0] > 0:
         # Increment iteration counter
         i += 1 # Let i refers to current iteration
 
         # Step 1: Segment X into k clusters using k-means
-        kmeans = KMeans(n_clusters=k, max_iter= 1000, random_state=opt.kmeans_random_state, n_init=1).fit(X)
-        idx = kmeans.labels_
-        C = kmeans.cluster_centers_
+        idx, C = kmeans_method.kmeans(X=X, k=k, random_state=opt.kmeans_random_state)
 
         # Step 2: Evaluate segmentation
         # 2.1: Check homogeneity
@@ -381,7 +380,7 @@ def fsp(X, y , opt = Options()):
                 s_parameter = s_parameter / np.sqrt(ClassificationError / ClassificationError_previous)
 
             # 4.2: Evaluate cluster separability
-            criterion_met, dm = check_separability(X, y, idx, k, nCL, count_matrix, opt.dm_case, s_parameter, opt.dm_threshold, opt.return_full_dm)
+            criterion_met, dm = check_separability(X, y, idx, k, nCL, count_matrix, opt.dm_case, s_parameter, opt.dm_threshold, opt.return_full_dm, opt)
 
             # 4.3: If there is any separable region and the iteration has not reached the threshold, set k = k + 1
             if criterion_met and i < opt.iteration_threshold:

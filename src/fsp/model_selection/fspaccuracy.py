@@ -137,10 +137,10 @@ def evaluate_model_single_fold(data, train_index, test_index, opt):
 
     mdl = fsp(X_train, y_train, opt)
 
-    y_pred1, _ = fsp_predict(mdl, X_test,1)
+    y_pred1, _ = fsp_predict(mdl, X_test,1, opt=opt)
     acc1 = np.mean(y_test == y_pred1)
 
-    y_pred2, _ = fsp_predict(mdl, X_test,2)
+    y_pred2, _ = fsp_predict(mdl, X_test,2, opt=opt)
     acc2 = np.mean(y_test == y_pred2)
 
     return acc1, acc2

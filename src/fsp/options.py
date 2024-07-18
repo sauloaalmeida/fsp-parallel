@@ -1,3 +1,5 @@
+import fsp.methods.distance.scipy_single_thread as scipyst
+import fsp.methods.kmeans.sklearn_multi_thread as sklearnmt
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
@@ -14,6 +16,8 @@ class Options:
     return_full_history: bool = False
     iteration_threshold: float = 1e6
     kmeans_random_state: None | int = None
+    distance_method: int = 1
+    kmeans_method: int = 1
 
     @staticmethod
     def preset(label):
@@ -54,3 +58,11 @@ class Options:
             raise ValueError('Option informed not recognized.')
 
         return options[label]
+
+    def getDistanceMethod(self):
+        if self.distance_method == 1:
+            return scipyst
+
+    def getKMeansMethod(self):
+        if self.kmeans_method == 1:
+            return sklearnmt
