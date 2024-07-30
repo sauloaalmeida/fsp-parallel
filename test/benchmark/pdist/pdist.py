@@ -2,6 +2,7 @@ import torch
 import scipy
 import cupy as cp
 import numpy as np
+from cuml.metrics import pairwise_distances as pairwise_distances_cuml
 from scipy.spatial import distance
 from sklearn.metrics.pairwise import pairwise_distances
 from scipy.spatial.distance import squareform

@@ -1,6 +1,14 @@
-import fsp.methods.distance.scipy_single_thread as scipyst
-import fsp.methods.kmeans.sklearn_multi_thread as sklearnmt
-from dataclasses import dataclass
+import fsp.methods.distance.scipy_single_thread as dist_scipy_st
+import fsp.methods.distance.sklearn_multi_thread as dist_sklearn_mt
+import fsp.methods.distance.torch_multi_thread_cpu as dist_torch_mt_cpu
+import fsp.methods.distance.torch_gpu as dist_torch_gpu
+import fsp.methods.distance.rapidsai_gpu as dist_rapidsai_gpu
+import fsp.methods.kmeans.sklearn_multi_thread as kmeans_sklearn_mt
+import fsp.methods.kmeans.scipy_single_thread as kmeans_scipy_st
+import fsp.methods.kmeans.rapidsai_gpu as kmeans_rapidsai_gpu
+from dataclasses import dataclass, asdict
+import json
+
 
 @dataclass(frozen=True)
 class Options:
@@ -18,6 +26,11 @@ class Options:
     kmeans_random_state: None | int = None
     distance_method: int = 1
     kmeans_method: int = 1
+
+    @staticmethod
+    def from_str(data_str):
+        data = json.loads(data_str)
+        return Options(**data)
 
     @staticmethod
     def preset(label):
@@ -59,10 +72,25 @@ class Options:
 
         return options[label]
 
+    def __str__(self):
+        return json.dumps(asdict(self))
+
     def getDistanceMethod(self):
         if self.distance_method == 1:
-            return scipyst
+            return dist_scipy_st
+        elif self.distance_method == 2:
+            return dist_sklearn_mt
+        elif self.distance_method == 3:
+            return dist_torch_mt_cpu
+        elif self.distance_method == 4:
+            return dist_torch_gpu
+        elif self.distance_method == 5:
+            return dist_rapidsai_gpu
 
     def getKMeansMethod(self):
         if self.kmeans_method == 1:
-            return sklearnmt
+            return kmeans_sklearn_mt
+        elif self.kmeans_method == 2:
+            return kmeans_scipy_st
+        elif self.kmeans_method == 3:
+            return kmeans_rapidsai_gpu
