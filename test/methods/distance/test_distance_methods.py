@@ -41,7 +41,7 @@ class TestDistanceMethods:
     def test_scipy_eq_sklearn_pdist_dm1(self):
         assert np.array_equal(dist_scipy_st.pdist_dm1(self.a),dist_sklearn_mt.pdist_dm1(self.a))
 
-    # def test_scipy_eq_sklearn_pdist_dm2(self):
+    #TODO: def test_scipy_eq_sklearn_pdist_dm2(self):
     #     assert np.array_equal(dist_scipy_st.pdist_dm2(self.a, self.va), dist_sklearn_mt.pdist_dm2(self.a, self.va))
 
     def test_scipy_eq_sklearn_cdist(self):
@@ -50,7 +50,7 @@ class TestDistanceMethods:
     def test_scipy_eq_sklearn_cdist_dm1(self):
         assert np.array_equal(dist_scipy_st.cdist_dm1(self.a, self.b), dist_sklearn_mt.cdist_dm1(self.a, self.b))
 
-    # def test_scipy_eq_sklearn_cdist_dm2(self):
+    #TODO: def test_scipy_eq_sklearn_cdist_dm2(self):
     #     assert np.array_equal(dist_scipy_st.cdist_dm2(self.a, self.b, self.va, self.vb, self.ha2, self.hb2), dist_sklearn_mt.cdist_dm2(self.a, self.b, self.va, self.vb, self.ha2, self.hb2))
 
     def test_scipy_eq_torch_cdist_cpu(self):
@@ -71,7 +71,7 @@ class TestDistanceMethods:
     def test_scipy_eq_torch_pdist_dm1_gpu(self):
         assert np.allclose(dist_scipy_st.pdist_dm1(self.a), dist_torch_gpu.pdist_dm1(self.a))
 
-    # def test_scipy_eq_torch_pdist_dm2_cpu(self):
+    #TODO: def test_scipy_eq_torch_pdist_dm2_cpu(self):
     #     assert np.allclose(dist_scipy_st.pdist_dm2(self.a, self.va), dist_torch_mt_cpu.pdist_dm2(self.a, self.va))
 
     def test_scipy_eq_rapidsai_cdist_gpu(self):

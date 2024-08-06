@@ -33,8 +33,6 @@ def cdist_torch_GPU(_a,_b):
     torch_tensor_b = torch.tensor(_b, dtype=torch.float32).to(device)
 
     # Calculate pairwise distances using torch.cdist
-    #distances = torch.cdist(torch_tensor_a, torch_tensor_b)
-
     return torch.cdist(torch_tensor_a,torch_tensor_b)
 
 def cdist_rapids_GPU(_a, _b):

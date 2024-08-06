@@ -18,3 +18,4 @@ dependencies:
   - pytorch==2.3.0
   - rapids=23.12
   - tensorflow==2.16.1
+  - scikit-optimize==0.10.2

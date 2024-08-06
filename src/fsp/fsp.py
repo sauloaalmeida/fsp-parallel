@@ -64,7 +64,8 @@ def predict_method_2(fsp_output, Xtest, opt):
 
 def classify_by_the_nearest_centroid(X, C, opt):
     """Classify data points by the nearest centroid."""
-    dist_X_C = opt.getDistanceMethod().cdist(X, C)
+    distMethods = opt.getDistanceMethod(opt)
+    dist_X_C = distMethods.cdist(X, C)
     return np.argmin(dist_X_C, axis=1)
 
 def calculate_dominant_class(Itrain, ytrain, k, nCL):
@@ -83,7 +84,7 @@ def run_single_prediction(Xtest_row, H, opt):
     # Iterate through H
     veci = H['i']
     for j in range(len(veci)):
-        if len(H['rmCidx'][j]) == 0:
+        if len(H['rmCidx'][j]) == 0: # Check if the list is empty
             continue
 
         # Classify the test data
@@ -99,12 +100,17 @@ def run_single_prediction(Xtest_row, H, opt):
         if len(idx_in_rmCidx) > 0:
             ypredict = H['rmDominantClassLabel'][j][idx_in_rmCidx]
             ypredict_Proportion = H['rmDominantClassLabel_Proportion'][j][idx_in_rmCidx]
-            return ypredict, ypredict_Proportion
+            return ypredict[0], ypredict_Proportion[0]
 
     raise ValueError('Did not find an iteration in H where the observation Xtest_row belongs to a cluster marked for removal.')
 
 def run_multi_prediction(Xtest, H, opt):
-    raise NotImplementedError('predict_method_2 with Xtest.shape[0]>1 is not implemented yet.')
+    """Predict the class and proportion for multiple test observations."""
+    ypredict = np.zeros(Xtest.shape[0],dtype=int)
+    ypredict_Proportion = np.zeros(Xtest.shape[0])
+    for i in range(Xtest.shape[0]):
+        ypredict[i], ypredict_Proportion[i] = run_single_prediction(Xtest[i,:][np.newaxis, :], H, opt)
+    return ypredict, ypredict_Proportion
 
 #################################################
 #### PREDICT BLOCK END
