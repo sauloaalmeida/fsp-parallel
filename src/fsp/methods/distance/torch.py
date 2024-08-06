@@ -4,6 +4,7 @@ import numpy as np
 def _initDevice(deviceName):
     if deviceName == 'cuda':
         if torch.cuda.is_available():
+            print("Will run on GPU")
             return torch.device(deviceName)
         else:
             print("Trying to using GPU but it's not available. Using CPU!")
@@ -15,7 +16,6 @@ def _createTensor(data, dev):
     if dev.type == 'cuda':
         return torch.tensor(data, dtype=torch.float32).to(dev)
     else:
-        print("Criando cpu tensor")
         return torch.tensor(data, dtype=torch.float64).to(dev)
 
 def cdist(A, B, deviceName="cpu"):
