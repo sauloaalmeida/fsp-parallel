@@ -95,13 +95,18 @@ def fsp_evaluating_accuracy(dataset_name=None, opt=Options.list1(), KFold=0, Num
     Returns:
     List of dict containing mean accuracy, standard deviation, and total elapsed time for each dataset_name and option.
     """
+
+    projectRootAbsPath = Path(".").cwd()
+    datasetAbsDirPath = projectRootAbsPath / "test" / "benchmark" / "fsp" / "Datasets"
+    resultsAbsDirPath = projectRootAbsPath / "test" / "benchmark" / "fsp" / "Results"
+
     # Define default dataset_name, if not informe
     if not dataset_name:
         dataset_name = ["Iris", "Bands"]#, "DiabetesRisk", "Ionosphere", "Muskvs1", "Sonar", "ElectricalFaultDetection_2001Sample", "ElectricalFaultClassification_2000Sample"]
 
     # Load [X,y] matrix based on the dataset_name type (str, list of str, or numpy.ndarray)
     if all( isinstance(ds, str) for ds in dataset_name ):
-        list_X_y = [pd.read_csv(f"Datasets/{ds}.csv", header=None).values for ds in dataset_name]
+        list_X_y = [pd.read_csv(datasetAbsDirPath / f"{ds}.csv", header=None).values for ds in dataset_name]
     elif isinstance(dataset_name, np.ndarray):
         list_X_y = [dataset_name]
     else:
@@ -134,7 +139,7 @@ def fsp_evaluating_accuracy(dataset_name=None, opt=Options.list1(), KFold=0, Num
         os.makedirs('Results', exist_ok=True)
 
         # Define the dataset results file name
-        dataset_results_FullFileName = f"Results/{current_dataset_name}_fsp_evaluating_accuracy_KFold{KFold}.npz"
+        dataset_results_FullFileName = resultsAbsDirPath / f"{current_dataset_name}_fsp_evaluating_accuracy_KFold{KFold}.npz"
 
         # Check if the file already exists
         if current_dataset_name and os.path.isfile(dataset_results_FullFileName):

@@ -13,4 +13,4 @@ def test_hyperparam_optimization():
     fsp_HyperparameterTuning_skopt("Iris")
 
 def test_fsp_evaluating_accuracy():
-    fsp_evaluating_accuracy(dataset_name="Iris", opt=[Options(),Options(distance_method=3),Options(distance_method=4)], KFold=0, NumberOfRuns=10)
+    fsp_evaluating_accuracy(dataset_name=["Iris"], opt=[Options(),Options(distance_method=3),Options(distance_method=4)], KFold=0, NumberOfRuns=10)

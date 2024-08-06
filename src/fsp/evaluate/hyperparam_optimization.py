@@ -33,11 +33,10 @@ def fsp_HyperparameterTuning_skopt(dataset_name):
     projectRootAbsPath = Path(".").cwd()
     datasetAbsDirPath = projectRootAbsPath / "test" / "benchmark" / "fsp" / "Datasets"
     resultsAbsDirPath = projectRootAbsPath / "test" / "benchmark" / "fsp" / "Results"
-    datasetAbsPath = datasetAbsDirPath / f"{dataset_name}.csv"
 
     # Load [X,y] matrix based on the dataset_name type (str or numpy.ndarray)
     if isinstance(dataset_name, str):
-        X_y = pd.read_csv(datasetAbsPath,header=None).values
+        X_y = pd.read_csv(datasetAbsDirPath / f"{dataset_name}.csv",header=None).values
     elif isinstance(dataset_name, np.ndarray):
         X_y = dataset_name
         dataset_name = None
