@@ -19,11 +19,11 @@ class TestOptions:
         assert options.return_full_history == False
         assert options.iteration_threshold == 1e6
         assert options.kmeans_random_state == None
-        assert options.distance_method == 1
-        assert options.kmeans_method == 1
+        assert options.distance_method == 3
+        assert options.kmeans_method == 2
 
     def test_not_default_values(self):
-        options = Options(initial_k = 2, dm_case = 3,  kmeans_random_state = 0, kmeans_method = 2)
+        options = Options(initial_k = 2, dm_case = 3,  kmeans_random_state = 0, kmeans_method = 3)
         assert options.Standardize == False
         assert options.initial_k == 2
         assert options.p_parameter == 0.01
@@ -37,7 +37,7 @@ class TestOptions:
         assert options.iteration_threshold == 1e6
         assert options.kmeans_random_state == 0
         assert options.distance_method == 1
-        assert options.kmeans_method == 2
+        assert options.kmeans_method == 3
 
     def test_modify_attribute(self):
         with pytest.raises(FrozenInstanceError):

@@ -25,8 +25,8 @@ class Options:
     return_full_history: bool = False
     iteration_threshold: int = 1e6
     kmeans_random_state: None | int = None
-    distance_method: int = 1
-    kmeans_method: int = 1
+    distance_method: int = 3
+    kmeans_method: int = 2
 
     @staticmethod
     def list1():
@@ -45,7 +45,7 @@ class Options:
         kmeans_random_state = [None]
         distance_method = [1, 2, 3, 4, 5]
         #kmeans_method = [1, 2, 3]
-        kmeans_method = [1, 3]
+        kmeans_method = [2, 3]
 
         # Generate all combinations of the parameters
         combinations = product(
@@ -91,8 +91,8 @@ class Options:
 
     def getKMeansMethod(self):
         if self.kmeans_method == 1:
-            return kmeans_sklearn_mt
-        elif self.kmeans_method == 2:
             return kmeans_scipy_st
+        elif self.kmeans_method == 2:
+            return kmeans_sklearn_mt
         elif self.kmeans_method == 3:
             return kmeans_rapidsai_gpu
