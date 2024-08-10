@@ -31,10 +31,10 @@ class Options:
     @staticmethod
     def list1():
         # Define parameter values
-        Standardize = [False, True]
-        initial_k = [1, 5, 10]
+        Standardize = [True]
+        initial_k = [1, 10, 50, 100]
         p_parameter = [0.01]
-        h_threshold = [1, 10]
+        h_threshold = [1, 4]
         dm_case = [1, 2]
         s_parameter = [0.1]
         dm_threshold = [3, 5]
@@ -43,12 +43,15 @@ class Options:
         return_full_history = [False]
         iteration_threshold = [int(1e6)]
         kmeans_random_state = [None]
+        distance_method = [1, 2, 3, 4, 5]
+        kmeans_method = [1, 2, 3]
 
         # Generate all combinations of the parameters
         combinations = product(
             Standardize, initial_k, p_parameter, h_threshold, dm_case,
             s_parameter, dm_threshold, update_s_parameter,
-            return_full_dm, return_full_history, iteration_threshold, kmeans_random_state
+            return_full_dm, return_full_history, iteration_threshold, kmeans_random_state,
+            distance_method, kmeans_method
         )
 
         # Convert combinations to a list of Options instances
@@ -65,7 +68,9 @@ class Options:
                 return_full_dm=combo[8],
                 return_full_history=combo[9],
                 iteration_threshold=combo[10],
-                kmeans_random_state=combo[11]
+                kmeans_random_state=combo[11],
+                distance_method=combo[12],
+                kmeans_method=combo[13]
             ) for combo in combinations
         ]
 
