@@ -1,7 +1,13 @@
 from cuml import KMeans
+import cupy as cp
 
-def kmeans(_X, _k, random_state):
-    in1 = cp.array(_X, dtype=cp.float32)
-    kmeans = KMeans(n_clusters=_k, max_iter=1000, random_state=random_state, n_init=1)
+def kmeans(X, k, random_state):
+
+    random = random_state
+    if random_state == None:
+        random = 1
+
+    in1 = cp.array(X, dtype=cp.float32)
+    kmeans = KMeans(n_clusters=int(k), max_iter=1000, random_state=random, n_init=1)
     kmeans.fit(in1)
-    return kmeans.labels_, kmeans.cluster_centers_,
+    return kmeans.labels_.get(), kmeans.cluster_centers_.get()

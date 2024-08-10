@@ -44,7 +44,8 @@ class Options:
         iteration_threshold = [int(1e6)]
         kmeans_random_state = [None]
         distance_method = [1, 2, 3, 4, 5]
-        kmeans_method = [1, 2, 3]
+        #kmeans_method = [1, 2, 3]
+        kmeans_method = [1]
 
         # Generate all combinations of the parameters
         combinations = product(

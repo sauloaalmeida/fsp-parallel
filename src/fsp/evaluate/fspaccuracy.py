@@ -58,7 +58,7 @@ def FSP_cvLoss_SingleFold(data, opt, predict_method, train_index, test_index):
     y_train, y_test = data[train_index, -1].astype(int), data[test_index, -1].astype(int)
 
     # Train the model
-    mdl = fsp(X_train, y_train, opt)
+    mdl = fsp(X=X_train, y=y_train, opt=opt)
 
     # Initialize loss vector
     single_fold_loss = np.zeros(len(predict_method))
