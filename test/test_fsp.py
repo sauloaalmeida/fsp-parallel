@@ -98,7 +98,8 @@ class TestFsp:
                         s_parameter=0.3,
                         p_parameter=0.01,
                         kmeans_random_state=0,
-                        distance_method=2)
+                        distance_method=2,
+                        kmeans_method=2)
 
         fsp_output = fsp(X_train, y_train,opt=option)
 
