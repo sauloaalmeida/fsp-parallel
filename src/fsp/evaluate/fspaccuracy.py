@@ -102,7 +102,18 @@ def fsp_evaluating_accuracy(dataset_name=None, opt=Options.list1(), KFold=0, Num
 
     # Define default dataset_name, if not informe
     if not dataset_name:
-        dataset_name = ["Iris", "Bands"]#, "DiabetesRisk", "Ionosphere", "Muskvs1", "Sonar", "ElectricalFaultDetection_2001Sample", "ElectricalFaultClassification_2000Sample"]
+        dataset_name = [
+        "Iris",
+        "Bands",
+        "DiabetesRisk",
+        "GlassIdentification",
+        "Ionosphere",
+        "LibrasMovement",
+        "MaternalHealthRisk",
+        "Sonar",
+        "Zoo",
+        "ElectricalFaultDetection_2001Sample"
+        ]
 
     # Load [X,y] matrix based on the dataset_name type (str, list of str, or numpy.ndarray)
     if all( isinstance(ds, str) for ds in dataset_name ):
