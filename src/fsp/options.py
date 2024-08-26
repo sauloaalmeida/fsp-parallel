@@ -43,7 +43,8 @@ class Options:
         return_full_history = [False]
         iteration_threshold = [int(1e6)]
         kmeans_random_state = [None]
-        distance_method = [1, 2, 3, 4, 5]
+        #distance_method = [1, 2, 3, 4, 5]
+        distance_method = [1, 3, 4]
         #kmeans_method = [1, 2, 3]
         kmeans_method = [2]
 
