@@ -16,6 +16,41 @@ import scipy
 import sklearn
 class TestFsp:
 
+    def setup_method(self, method):
+        self.X, self.y = datasets.load_iris(return_X_y=True)
+
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+        self.X, self.y, test_size=20, random_state=42)
+
+
+    def test_fsp_torch_cpu_dm_case1(self):
+
+        option = Options(dm_case=1, distance_method = 3, kmeans_method = 2, kmeans_random_state = 42)
+
+        fsp_output = fsp(self.X_train, self.y_train, opt = option)
+        print(fsp_output)
+
+    def test_fsp_torch_cpu_dm_case2(self):
+
+        option = Options(dm_case=2, distance_method = 3, kmeans_method = 2, kmeans_random_state = 42)
+
+        fsp_output = fsp(self.X_train, self.y_train, opt = option)
+        print(fsp_output)
+
+    def test_fsp_scipy_st_dm_case1(self):
+
+        option = Options(dm_case=1, distance_method = 1, kmeans_method = 2, kmeans_random_state = 42)
+
+        fsp_output = fsp(self.X_train, self.y_train, opt = option)
+        print(fsp_output)
+
+    def test_fsp_scipy_st_dm_case2(self):
+
+        option = Options(dm_case=2, distance_method = 1, kmeans_method = 2, kmeans_random_state = 42)
+
+        fsp_output = fsp(self.X_train, self.y_train, opt = option)
+        print(fsp_output)
+
     def test_fsp_default_execution(self):
 
         X,y = datasets.load_iris(return_X_y=True)

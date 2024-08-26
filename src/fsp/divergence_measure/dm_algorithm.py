@@ -69,6 +69,6 @@ def dm_case2(A,B, distance_method):
 def Divergence_Measure(A,B,opt):
 
     if opt.dm_case == 1:
-        return dm_case1(A, B, opt.getDistanceMethod())
+        return opt.getDistanceMethod().dm_case1(A, B)
     elif opt.dm_case == 2:
-        return dm_case2(A, B, opt.getDistanceMethod())
+        return opt.getDistanceMethod().dm_case2(A, B)

@@ -96,3 +96,17 @@ class Options:
             return kmeans_sklearn_mt
         elif self.kmeans_method == 3:
             return kmeans_rapidsai_gpu
+
+    def getParamsDetails(self):
+        return f"{{Standardize={self.Standardize}, "\
+        f"initial_k={self.initial_k}, "\
+        f"p_parameter={self.p_parameter}, "\
+        f"h_threshold={self.h_threshold}, "\
+        f"dm_case={self.dm_case}, "\
+        f"s_parameter={self.s_parameter}, "\
+        f"dm_threshold={self.dm_threshold}, "\
+        f"update_s_parameter={self.update_s_parameter}, "\
+        f"return_full_dm={self.return_full_dm}, "\
+        f"return_full_history={self.return_full_history}, "\
+        f"iteration_threshold={self.iteration_threshold}, "\
+        f"kmeans_random_state={self.kmeans_random_state}}}"
