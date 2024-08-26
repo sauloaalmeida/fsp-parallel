@@ -33,7 +33,7 @@ def _createMainTensorsAndDevice(A,B,deviceName):
     return  tensorA, tensorB, Va, Vb, dev
 
 def cdist(A, B, deviceName="cpu"):
-    tensorA, tensorB, _ = _createMainTensorsAndDevice(A, B, deviceName)
+    tensorA, tensorB, _, _, _ = _createMainTensorsAndDevice(A, B, deviceName)
     return torch.cdist(tensorA,tensorB)
 
 def dm_case1(A,B, deviceName="cpu"):
