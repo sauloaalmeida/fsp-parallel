@@ -1,0 +1,3 @@
+0 ElectricalFaultDetection 1 s
+1 ElectricalFaultDetection 3 s
+2 ElectricalFaultDetection 4 l
