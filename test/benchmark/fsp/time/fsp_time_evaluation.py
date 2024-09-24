@@ -41,7 +41,7 @@ def load_data(datasetName):
     X_y = pd.read_csv(datasetAbsDirPath , header=None).values
 
     # Adjust class labels if necessary
-    if np.min(np.unique(X_y[:, -1])) == 1:
+    if np.min(np.unique(X_y[:, -1].astype(int))) == 1:
         X_y[:, -1] -= 1
 
     #return loaded Data
