@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(1, '/home/saulo/workspace/projetos-python/fsp-python-gpu/src')
+sys.path.insert(1, '/home/saulo_almeida/fsp-python-gpu/src')
 import inspect
 import time
 import os
@@ -35,7 +35,7 @@ def fspSingleEvaluate(X_train, y_train, X_test, y_test, opt):
 
 def load_data(datasetName):
     #setup used folders
-    projectRootAbsPath = Path('/home/saulo/workspace/projetos-python/fsp-python-gpu')
+    projectRootAbsPath = Path('/home/saulo_almeida/fsp-python-gpu')
     datasetAbsDirPath = projectRootAbsPath / "test" / "benchmark" / "fsp" / "Datasets" / f"{datasetName}.csv"
 
     X_y = pd.read_csv(datasetAbsDirPath , header=None).values
@@ -49,10 +49,10 @@ def load_data(datasetName):
 
 
 def createOption(distanceMethod):
-    return Options(Standardize=True, initial_k=45, p_parameter=0.01, h_threshold=4, dm_case=1, dm_threshold=3, update_s_parameter=True, s_parameter=0.15, distance_method=distanceMethod, kmeans_random_state=RANDOM_STATE_SEED)
+    return Options(Standardize=True, initial_k=1, p_parameter=0.01, h_threshold=1, dm_case=1, dm_threshold=3, update_s_parameter=True, s_parameter=0.15, distance_method=distanceMethod, kmeans_random_state=RANDOM_STATE_SEED)
 
 
-def fspSerialLeaveOneOutTimeEvaluating(idExec, datasetName="Iris", distanceMethod=1):
+def fspSerialLeaveOneOutTimeEvaluating(idExec, executionType, datasetName="Iris", distanceMethod=1):
 
     #loading data
     X_y = load_data(datasetName)
@@ -71,9 +71,9 @@ def fspSerialLeaveOneOutTimeEvaluating(idExec, datasetName="Iris", distanceMetho
         y_test = X_y[test_indexes, -1].astype(int)
 
         elipsedTrainingTime, elipsedPredict1Time, elipsedPredict2Time, pred1, pred2 = fspSingleEvaluate(X_train, y_train, X_test, y_test, opt)
-        print(f"{idExec},{i},{datasetName},{distanceMethod},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{pred1},{pred2}")
+        print(f"{idExec},{executionType},{i},{datasetName},{distanceMethod},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{pred1},{pred2}")
 
-def fspSerialSingleTimeEvaluating(idExec, datasetName, distanceMethod):
+def fspSerialSingleTimeEvaluating(idExec, executionType, datasetName="Iris", distanceMethod=1):
 
     #loading data
     X_y = load_data(datasetName)
@@ -91,7 +91,7 @@ def fspSerialSingleTimeEvaluating(idExec, datasetName, distanceMethod):
     y_test = X_y[test_indexes, -1].astype(int)
 
     elipsedTrainingTime, elipsedPredict1Time, elipsedPredict2Time, pred1, pred2 = fspSingleEvaluate(X_train, y_train, X_test, y_test, opt)
-    print(f"{idExec},{i},{datasetName},{distanceMethod},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{pred1},{pred2}")
+    print(f"{idExec},{executionType},{i},{datasetName},{distanceMethod},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{pred1},{pred2}")
 
 def main():
 
@@ -101,8 +101,8 @@ def main():
     _executionType = sys.argv[4]
 
     if(_executionType == "s"):
-        fspSerialSingleTimeEvaluating(_idExec, _datasetName, _distanceMethod)
+        fspSerialSingleTimeEvaluating(_idExec, _executionType, _datasetName, _distanceMethod)
     else:
-        fspSerialLeaveOneOutTimeEvaluating(_idExec, _datasetName, _distanceMethod)
+        fspSerialLeaveOneOutTimeEvaluating(_idExec, _executionType, _datasetName, _distanceMethod)
 
 main()
