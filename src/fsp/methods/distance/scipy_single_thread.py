@@ -13,7 +13,7 @@ def dm_case1(A, B):
     meanVa = np.mean(Va)
     meanVb = np.mean(Vb)
 
-    sum_ab = np.sum(np.exp( -distance.cdist(A, B)/(2*ha2*meanVa+2*hb2*meanVb) ))
+    sum_ab = np.sum(np.exp( -distance.cdist(A, B,'sqeuclidean')/(2*ha2*meanVa+2*hb2*meanVb) ))
 
     if sum_ab == 0:
         return 0;
