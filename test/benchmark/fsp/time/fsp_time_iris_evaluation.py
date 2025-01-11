@@ -48,6 +48,6 @@ def main():
     results = fspSerialLeaveOneOutTimeEvaluating()
 
     for result in results:
-        print(f'Media  predict1={result["MeanStd_accuracies_predict1"]}, Media  predict2={result["MeanStd_accuracies_predict2"]}')
+        print(f'Media  predict1={result["MeanStd_accuracies_predict1"]}, Media  predict2={result["MeanStd_accuracies_predict2"]}, ElapsedTime={result["ElapsedTime"]}')
 
 main()

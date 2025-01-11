@@ -225,7 +225,7 @@ def fsp_evaluating_accuracy(dataset_name=None, opt=Options.list1(), KFold=0, Num
                 np.savez(dataset_results_FullFileName, dataset_results=dataset_results)
 
             # Display results as a DataFrame
-            print(pd.DataFrame(results).tail(1))
+            #print(pd.DataFrame(results).tail(1))
 
     # Return results
     return results
