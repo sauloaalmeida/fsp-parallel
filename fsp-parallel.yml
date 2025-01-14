@@ -1,4 +1,4 @@
-name: fsp-frallel
+name: fsp-parallel
 channels:
   - rapidsai
   - conda-forge
