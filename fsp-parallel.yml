@@ -1,4 +1,4 @@
-name: fsp-gpu
+name: fsp-frallel
 channels:
   - rapidsai
   - conda-forge
