@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(1, '/home/saulo/workspace/projetos-python/fsp-python-gpu/src')
+sys.path.insert(1, '/home/saulo_almeida/fsp-parallel/src')
 import inspect
 import time
 import os
@@ -11,7 +11,7 @@ from fsp.evaluate.fspaccuracy import fsp_evaluating_accuracy
 
 def load_iris_data():
     #setup used folders
-    projectRootAbsPath = Path('/home/saulo/workspace/projetos-python/fsp-python-gpu')
+    projectRootAbsPath = Path('/home/saulo_almeida/fsp-parallel')
     datasetAbsDirPath = projectRootAbsPath / "test" / "benchmark" / "fsp" / "Datasets" / "Iris.csv"
 
     X_y = pd.read_csv(datasetAbsDirPath , header=None).values

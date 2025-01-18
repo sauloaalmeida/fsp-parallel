@@ -1,21 +1,21 @@
 name: fsp-parallel
 channels:
-  - rapidsai
   - conda-forge
+  - rapidsai
   - nvidia
 dependencies:
   #development support tools
-  - python=3.10
-  - pytest==8.2.1
-  - coverage==7.5.3
-  - pyinstrument==4.6.2
-  - cuda-version=12.2
+  - conda-forge/linux-64::python=3.12
+  - pytest==8.3.4
+  - coverage==7.6.10
+  - pyinstrument==5.0.0
+  - cuda-version=12.5
   #project libraries
-  - numpy==1.24
-  - pandas==1.5.3
-  - scipy==1.13.0
-  - scikit-learn==1.2.2
-  - pytorch==2.3.0
-  - rapids=23.12
-  - tensorflow==2.16.1
+  - numpy==2.0.2
+  - pandas==2.2.3
+  - scipy==1.15.1
+  - scikit-learn==1.6.1
+  - pytorch==2.5.1
+  - rapids=24.12
   - scikit-optimize==0.10.2
+  - conda-forge/linux-64::cupy==13.3.0
