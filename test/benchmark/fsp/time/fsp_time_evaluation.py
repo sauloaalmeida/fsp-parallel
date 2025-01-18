@@ -8,12 +8,58 @@ import pandas as pd
 from pathlib import Path
 from fsp.options import Options
 from sklearn.model_selection import LeaveOneOut
+from sklearn.model_selection import RepeatedStratifiedKFold
 from fsp.fsp import fsp
 from fsp.fsp import fsp_predict
 
-#define seed
-RANDOM_STATE_SEED = 42
-np.random.seed(RANDOM_STATE_SEED)
+def inputValidation(args):
+    
+    _kFoldSize = 10
+    _numRepeats = 10
+
+    if (len(args) < 3 or len(args) > 6):
+        raise Exception("Execution call must be between 3 and 5 arguments:"
+                        "\n1 - ExecutionId (string),"
+                        "\n2 - DatasetName (String),"
+                        "\n3 - DistanceMethod (Int) - 1: Serial, 3: CPU Multi-thread, 4: GPU"
+                        "\n4 - NumberRepeats - Optional (Int) - Without parameter: 10, n - Number of repeats"
+                        "\n5 - KFoldSize - Optional (Int) - Without parameter: 10, 0 - Single execution, n - Number of folds (must be at least 2)."
+                        "\n(Obs: if number of folds equal of dataset observations, will be a LeaveOneOut Cross Validation).")
+
+    _idExec = args[1]
+    _datasetName = args[2]
+
+    #validating distance method
+    try:
+        _distanceMethod = int(args[3])
+    except ValueError:
+        raise Exception("Error validating the distance method. Distance method must be an integer number")
+    
+    if(_distanceMethod not in(1,3,4)):
+        raise ValueError("Error validating the distance method. Distance method must have one of the following values: 1: Serial, 3: CPU Multi-thread, 4: GPU.")
+
+    #validating number of repeats (if exists)
+    if(len(args) > 4):
+        try:
+            _numRepeats = int(args[4])
+        except ValueError:
+            raise Exception("Error validating the number of repeats. If informed, number of repeats must be an integer.")
+    
+        if(_numRepeats < 1):
+            raise ValueError("Error validating the number of repeats. Number of repeats must be at least 1.")
+
+    #validating kfold size (if exists)
+    if(len(args) > 5):
+        try:
+            _kFoldSize = int(args[5])
+        except ValueError:
+            raise Exception("Error validating the number of Folds. If informed, number of folds must be an integer.")
+    
+        if(_kFoldSize < 2 and _kFoldSize != 0):
+            raise ValueError("Error validating the number of Folds. Use 0 for single FSP execution, or at least 2, for KFold cross validation.")
+
+
+    return _idExec, _datasetName, _distanceMethod, _numRepeats, _kFoldSize 
 
 
 def fspSingleEvaluate(X_train, y_train, X_test, y_test, opt):
@@ -49,7 +95,7 @@ def load_data(datasetName):
 
 
 def createOption(distanceMethod):
-    return Options(Standardize=True, initial_k=1, p_parameter=0.01, h_threshold=1, dm_case=1, dm_threshold=3, update_s_parameter=True, s_parameter=0.15, distance_method=distanceMethod, kmeans_random_state=RANDOM_STATE_SEED)
+    return Options(Standardize=True, initial_k=1, p_parameter=0.01, h_threshold=1, dm_case=1, dm_threshold=3, update_s_parameter=True, s_parameter=0.15, distance_method=distanceMethod, kmeans_random_state=None)
 
 
 def fspSerialLeaveOneOutTimeEvaluating(idExec, executionType, datasetName="Iris", distanceMethod=1):
@@ -93,16 +139,37 @@ def fspSerialSingleTimeEvaluating(idExec, executionType, datasetName="Iris", dis
     elipsedTrainingTime, elipsedPredict1Time, elipsedPredict2Time, pred1, pred2 = fspSingleEvaluate(X_train, y_train, X_test, y_test, opt)
     print(f"{idExec},{executionType},{i},{datasetName},{distanceMethod},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{pred1},{pred2}")
 
+
+def fspSerialEvaluating(idExec, datasetName, distanceMethod, numRepeats, kFoldSize):
+    
+    #loading data
+    X_y = load_data(datasetName)
+
+    #create Options instance
+    opt = createOption(distanceMethod=distanceMethod)
+
+    #create cross validation strategy
+    repeatedStratifiedKFoldCrossValidation = RepeatedStratifiedKFold(n_splits=kFoldSize, n_repeats=numRepeats)
+
+    #iterate over folders spliting, training and predicting
+    for i, (train_indexes, test_indexes) in enumerate(repeatedStratifiedKFoldCrossValidation.split(X_y[:, :-1], X_y[:, -1])):
+        X_train = X_y[train_indexes, :-1]
+        X_test = X_y[test_indexes, :-1]
+        y_train = X_y[train_indexes, -1].astype(int)
+        y_test = X_y[test_indexes, -1].astype(int)
+
+        elipsedTrainingTime, elipsedPredict1Time, elipsedPredict2Time, pred1, pred2 = fspSingleEvaluate(X_train, y_train, X_test, y_test, opt)
+        print(f"{idExec},{numRepeats},{kFoldSize},{i},{datasetName},{distanceMethod},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{pred1},{pred2}")
+
 def main():
 
-    _idExec = sys.argv[1]
-    _datasetName = sys.argv[2]
-    _distanceMethod = int(sys.argv[3])
-    _executionType = sys.argv[4]
+    _idExec, _datasetName, _distanceMethod, _numRepeats, _kFoldSize = inputValidation(sys.argv)
 
-    if(_executionType == "s"):
-        fspSerialSingleTimeEvaluating(_idExec, _executionType, _datasetName, _distanceMethod)
-    else:
-        fspSerialLeaveOneOutTimeEvaluating(_idExec, _executionType, _datasetName, _distanceMethod)
+    fspSerialEvaluating(_idExec, _datasetName, _distanceMethod, _numRepeats, _kFoldSize)
+
+    # if(_executionType == "s"):
+    #     fspSerialSingleTimeEvaluating(_idExec, _executionType, _datasetName, _distanceMethod)
+    # else:
+    #     fspSerialLeaveOneOutTimeEvaluating(_idExec, _executionType, _datasetName, _distanceMethod)
 
 main()
