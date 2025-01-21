@@ -1,15 +1,21 @@
-0 PowerSystemAttack_2Classes 1 s
-1 PowerSystemAttack_2Classes 3 s
-2 PowerSystemAttack_2Classes 4 s
-3 PowerSystemAttack_3Classes 1 s
-4 PowerSystemAttack_3Classes 3 s
-5 PowerSystemAttack_3Classes 4 s
-6 ElectricalGridStability 1 s
-7 ElectricalGridStability 3 s
-8 ElectricalGridStability 4 s
-9 ElectricalFaultDetection 1 s
-10 ElectricalFaultDetection 3 s
-11 ElectricalFaultDetection 4 s
-12 ElectricalFaultClassification 1 s
-13 ElectricalFaultClassification 3 s
-14 ElectricalFaultClassification 4 s
+0 Iris 1 30 0
+1 Iris 3 30 0
+2 Iris 4 30 0
+3 Sonar 1 30 0
+4 Sonar 3 30 0
+5 Sonar 4 30 0
+6 GlassIdentification 1 30 0
+7 GlassIdentification 3 30 0
+8 GlassIdentification 4 30 0
+9 Bands 1 30 0
+10 Bands 3 30 0
+11 Bands 4 30 0
+12 LibrasMovement 1 30 0
+13 LibrasMovement 3 30 0
+14 LibrasMovement 4 30 0
+15 ElectricalFaultDetection 1 30 10
+16 ElectricalFaultDetection 3 30 10
+17 ElectricalFaultDetection 4 30 10
+18 ElectricalFaultClassification 1 30 10
+19 ElectricalFaultClassification 3 30 10
+20 ElectricalFaultClassification 4 30 10
