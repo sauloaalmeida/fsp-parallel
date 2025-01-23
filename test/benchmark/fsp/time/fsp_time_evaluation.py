@@ -74,7 +74,6 @@ def fspSingleEvaluate(X_train, y_train, X_test, y_test, opt):
 
     startPredict2Time = time.time()
     y_pred2, _ = fsp_predict(mdl, X_test, 2)
-
     elipsedPredict2Time = time.time() - startPredict2Time
 
     return elipsedTrainingTime, elipsedPredict1Time, elipsedPredict2Time,  np.mean(y_test != y_pred1),  np.mean(y_test != y_pred2)
