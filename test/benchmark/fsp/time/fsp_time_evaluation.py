@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(1, '/home/saulo/workspace/projetos-python/fsp-parallel/src')
+sys.path.insert(1, '/home/saulo/fsp-parallel/src')
 import inspect
 import time
 import os
@@ -81,7 +81,7 @@ def fspSingleEvaluate(X_train, y_train, X_test, y_test, opt):
 
 def load_data(datasetName):
     #setup used folders
-    projectRootAbsPath = Path('/home/saulo/workspace/projetos-python/fsp-parallel')
+    projectRootAbsPath = Path('/home/saulo/fsp-parallel')
     datasetAbsDirPath = projectRootAbsPath / "test" / "benchmark" / "fsp" / "Datasets" / f"{datasetName}.csv"
 
     X_y = pd.read_csv(datasetAbsDirPath , header=None).values

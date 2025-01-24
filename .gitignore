@@ -3,3 +3,5 @@ Results
 .coverage
 .vscode
 *.html
+.pytest_cache/
+htmlcov
