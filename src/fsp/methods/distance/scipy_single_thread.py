@@ -49,11 +49,3 @@ def dm_case2(A, B):
 
 def cdist(A, B):
     return distance.cdist(A,B)
-
-
-# def pdist_dm1(A):
-#     return distance.pdist(A,'sqeuclidean')
-
-# def cdist_dm1(A, B):
-#     return distance.cdist(A,B,'sqeuclidean')
-
