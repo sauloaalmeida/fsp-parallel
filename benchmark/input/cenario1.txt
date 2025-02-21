@@ -1,0 +1,4 @@
+1 ElectricalFaultDetection 30 10 4
+2 ElectricalFaultDetection 30 10 8
+3 ElectricalFaultDetection 30 10 16
+4 ElectricalFaultDetection 30 10 32

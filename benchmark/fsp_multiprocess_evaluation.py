@@ -3,6 +3,7 @@ import torch
 sys.path.insert(1, '/home/saulo/fsp-parallel/src')
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import RepeatedStratifiedKFold
 import util.evaluation_util as evaluation_util
 from fsp.options import Options
 from fsp.fsp import fsp
@@ -69,9 +70,25 @@ def fspMultiproccessKFoldEvaluating(_idExec, _datasetName, _numRepeats, _kFoldSi
     #Set number of procces
     torch.set_num_threads(_numProccess)
 
-    #execute kfold
-    evaluation_util.fspSerialKFoldEvaluating(_idExec, _datasetName, 3, _numRepeats, _kFoldSize)
+    #loading data
+    X_y = evaluation_util.load_data(_datasetName)
 
+    #create Options instance
+    opt = evaluation_util.createOption(distanceMethod=3)
+    print(opt)
+
+    #create cross validation strategy
+    repeatedStratifiedKFoldCrossValidation = RepeatedStratifiedKFold(n_splits=_kFoldSize, n_repeats=_numRepeats)
+
+    #iterate over folders spliting, training and predicting
+    for i, (train_indexes, test_indexes) in enumerate(repeatedStratifiedKFoldCrossValidation.split(X_y[:, :-1], X_y[:, -1])):
+        X_train = X_y[train_indexes, :-1]
+        X_test = X_y[test_indexes, :-1]
+        y_train = X_y[train_indexes, -1].astype(int)
+        y_test = X_y[test_indexes, -1].astype(int)
+
+        elipsedTrainingTime, elipsedPredict1Time, elipsedPredict2Time, erroPred1, erroPred2 = evaluation_util.fspSingleEvaluate(X_train, y_train, X_test, y_test, opt)
+        print(f"{_idExec},{_numRepeats},{_kFoldSize},{i},{i//_kFoldSize},{i%_kFoldSize},{_datasetName},{_numProccess},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{erroPred1},{erroPred2}")
 
 
 def main():

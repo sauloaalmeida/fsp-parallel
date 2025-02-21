@@ -3,7 +3,6 @@ import os
 import numpy as np
 import pandas as pd
 from pathlib import Path
-from sklearn.model_selection import RepeatedStratifiedKFold
 from fsp.options import Options
 from fsp.fsp import fsp
 from fsp.fsp import fsp_predict
@@ -42,25 +41,3 @@ def load_data(datasetName):
 
 def createOption(distanceMethod):
     return Options(Standardize=True, initial_k=1, p_parameter=0.01, h_threshold=1, dm_case=1, dm_threshold=3, update_s_parameter=True, s_parameter=0.15, distance_method=distanceMethod, kmeans_random_state=None)
-
-def fspSerialKFoldEvaluating(idExec, datasetName, distanceMethod, numRepeats, kFoldSize):
-
-    #loading data
-    X_y = load_data(datasetName)
-
-    #create Options instance
-    opt = createOption(distanceMethod=distanceMethod)
-    print(opt)
-
-    #create cross validation strategy
-    repeatedStratifiedKFoldCrossValidation = RepeatedStratifiedKFold(n_splits=kFoldSize, n_repeats=numRepeats)
-
-    #iterate over folders spliting, training and predicting
-    for i, (train_indexes, test_indexes) in enumerate(repeatedStratifiedKFoldCrossValidation.split(X_y[:, :-1], X_y[:, -1])):
-        X_train = X_y[train_indexes, :-1]
-        X_test = X_y[test_indexes, :-1]
-        y_train = X_y[train_indexes, -1].astype(int)
-        y_test = X_y[test_indexes, -1].astype(int)
-
-        elipsedTrainingTime, elipsedPredict1Time, elipsedPredict2Time, erroPred1, erroPred2 = fspSingleEvaluate(X_train, y_train, X_test, y_test, opt)
-        print(f"{idExec},{numRepeats},{kFoldSize},{i},{i//kFoldSize},{i%kFoldSize},{datasetName},{distanceMethod},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{erroPred1},{erroPred2}")
