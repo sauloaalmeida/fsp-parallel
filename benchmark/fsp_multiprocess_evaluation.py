@@ -1,9 +1,11 @@
 import sys
 import torch
+#ajust to absolut path of src project folder
 sys.path.insert(1, '/home/saulo/fsp-parallel/src')
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.model_selection import LeaveOneOut
 import util.evaluation_util as evaluation_util
 from fsp.options import Options
 from fsp.fsp import fsp
@@ -16,8 +18,6 @@ def inputValidation(args):
     _datasetName = 'ElectricalFaultDetection'
     _numRepeats = 10
     _numProccess = 32
-
-    print(args)
 
     if (len(args) <= 2 or len(args) > 6):
         raise Exception("Execution call must be between 2 and 5 arguments:"
@@ -48,9 +48,8 @@ def inputValidation(args):
         except ValueError:
             raise Exception("Error validating the number of Folds. If informed, number of folds must be an integer.")
 
-        if(_kFoldSize < 2):
-            raise ValueError("Error validating the number of Folds. Minimum fold size is 2 for KFold cross validation.")
-
+        if(_kFoldSize < 0 or _kFoldSize == 1):
+            raise ValueError("Error validating the number of Folds. Use 0 for LeaveOneOut execution or at least 2, for KFold cross validation.")
 
     #validating numProccess size (if exists)
     if(len(args) > 5):
@@ -59,11 +58,39 @@ def inputValidation(args):
         except ValueError:
             raise Exception("Error validating the number of proccess. If informed, number of proccess must be an integer.")
 
-        if(_numProccess < 2):
+        if(_numProccess < 1):
+            raise ValueError("Error validating the number of proccess. Minimum proccess amount is 1, if proccess uses LeaveOneOut Cross Validation.")
+
+        if(_kFoldSize != 0 and _numProccess < 2):
             raise ValueError("Error validating the number of proccess. Minimum proccess amount is 2 for parallel execution.")
 
 
     return _idExec, _datasetName, _numRepeats, _kFoldSize, _numProccess
+
+def fspMultiproccesslLeaveOneOutEvaluating(idExec, datasetName="Iris", distanceMethod=3, numRepeats=30, numProcess=32):
+
+    #Set number of procces
+    torch.set_num_threads(numProcess)
+
+    #loading data
+    X_y = evaluation_util.load_data(datasetName)
+
+    #create Options instance
+    opt = evaluation_util.createOption(distanceMethod=distanceMethod)
+    print(opt)
+
+    #train test split for one (the first) element of leave one out cross validation
+    crossValidationLiveOneOut = LeaveOneOut()
+    for repeat in range(numRepeats):
+        for i, (train_indexes, test_indexes) in (enumerate(crossValidationLiveOneOut.split(X_y[:, :-1], X_y[:, -1]))):
+            X_train = X_y[train_indexes, :-1]
+            X_test = X_y[test_indexes, :-1]
+            y_train = X_y[train_indexes, -1].astype(int)
+            y_test = X_y[test_indexes, -1].astype(int)
+
+            elipsedTrainingTime, elipsedPredict1Time, elipsedPredict2Time, erroPred1, erroPred2 = evaluation_util.fspSingleEvaluate(X_train, y_train, X_test, y_test, opt)
+            print(f"{idExec},{numRepeats},{len(X_y)},{repeat*len(X_y)+i},{(repeat*len(X_y)+i)//len(X_y)},{(repeat*len(X_y)+i)%len(X_y)},{datasetName},{numProcess},{elipsedTrainingTime},{elipsedPredict1Time},{elipsedPredict2Time},{erroPred1},{erroPred2}")
+
 
 def fspMultiproccessKFoldEvaluating(_idExec, _datasetName, _numRepeats, _kFoldSize, _numProccess):
 
@@ -97,6 +124,11 @@ def main():
 
     print(f'id={_idExec}, database={_datasetName}, repeats={_numRepeats}, kfold={_kFoldSize}, proccess={_numProccess}')
 
-    fspMultiproccessKFoldEvaluating(_idExec, _datasetName, _numRepeats, _kFoldSize, _numProccess)
+    if (_kFoldSize == 0 and _numProccess == 1):
+        evaluation_util.fspSerialLeaveOneOutEvaluating(_idExec, _datasetName, 1, _numRepeats)
+    elif (_kFoldSize == 0 and _numProccess > 1):
+        fspMultiproccesslLeaveOneOutEvaluating(_idExec, _datasetName, 3, _numRepeats, _numProccess)
+    else:
+        fspMultiproccessKFoldEvaluating(_idExec, _datasetName, _numRepeats, _kFoldSize, _numProccess)
 
 main()
