@@ -23,7 +23,7 @@ class TestOptions:
         assert options.kmeans_method == 2
 
     def test_not_default_values(self):
-        options = Options(initial_k = 2, dm_case = 3,  kmeans_random_state = 0, kmeans_method = 3)
+        options = Options(initial_k = 2, dm_case = 3,  kmeans_random_state = 0, kmeans_method = 3, distance_method = 1)
         assert options.Standardize == False
         assert options.initial_k == 2
         assert options.p_parameter == 0.01

@@ -64,7 +64,7 @@ def predict_method_2(fsp_output, Xtest, opt):
 
 def classify_by_the_nearest_centroid(X, C, opt):
     """Classify data points by the nearest centroid."""
-    distMethods = opt.getDistanceMethod(opt)
+    distMethods = opt.getDistanceMethod()
     dist_X_C = distMethods.cdist(X, C)
     return np.argmin(dist_X_C, axis=1)
 
