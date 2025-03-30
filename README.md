@@ -1,6 +1,6 @@
 # FSP (Feature Space Partition) implementation in Python using GPU
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7110653.svg)](https://doi.org/10.5281/zenodo.7110653)
+[![DOI](https://zenodo.org/badge/807089780.svg)](https://doi.org/10.5281/zenodo.15048153)
 
 ## Licença
 THis project is licenced uder Apache 2.0 - details in [LICENSE](LICENSE).
