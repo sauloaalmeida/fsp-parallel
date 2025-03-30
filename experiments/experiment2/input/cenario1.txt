@@ -1,0 +1,8 @@
+1 ElectricalFaultClassification 30 10 4
+2 ElectricalFaultClassification 30 10 8
+3 ElectricalFaultClassification 30 10 16
+4 ElectricalFaultClassification 30 10 32
+5 Iris 30 0 4
+6 Iris 30 0 8
+7 Iris 30 0 16
+8 Iris 30 0 32
