@@ -17,7 +17,5 @@ dependencies:
   - scipy==1.15.1
   - scikit-learn==1.6.1
   - pytorch==2.5.1
-  - rapids=24.12
-  - scikit-optimize==0.10.2
   - conda-forge/linux-64::cupy==13.3.0
   - matplotlib=3.9
