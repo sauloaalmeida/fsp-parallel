@@ -1,4 +1,4 @@
-# FSP (Feature Space Partition) implementation in Python using GPU
+# FSP (Feature Space Partition) parallel implementation
 
 [![DOI](https://zenodo.org/badge/807089780.svg)](https://doi.org/10.5281/zenodo.15048153)
 
